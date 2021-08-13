@@ -120,8 +120,6 @@ async function main() {
   let notenSpiegel = await getNotenSpiegelHtml(cookie, asi, abschlussId);
 
   while (true) {
-    await sleep(69);
-
     console.log(`Lade Notenspiegel: ${new Date().toUTCString()}`);
 
     const notenSpiegelNew = await getNotenSpiegelHtml(cookie, asi, abschlussId);
@@ -131,6 +129,8 @@ async function main() {
       notenSpiegel = notenSpiegelNew;
       console.log("Neue Note!");
     }
+
+    await sleep(69);
   }
 }
 main();
