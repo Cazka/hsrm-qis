@@ -11,6 +11,7 @@ You will then be prompted to enter your QIS login credentials.
 
 The program will then fetch your grades continously and notify you by displaying
 a notification when it found a new grade.
+
 ![image](https://user-images.githubusercontent.com/30176357/219873646-5d6a08f0-5cae-41ca-bfca-e5e1f37595ec.png)
 
 ![image](https://user-images.githubusercontent.com/30176357/129283842-a0741835-5314-4b28-8537-5ae12ddf1e87.png)
