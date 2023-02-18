@@ -3,7 +3,7 @@
 ## Usage
 
 ```js
-deno run --unstable --allow-net="wwwqis-2rz.itmz.hs-rm.de" https://raw.githubusercontent.com/Cazka/hsrm-qis/main/main.ts
+deno run --unstable --allow-ffi=$Env:LOCALAPPDATA\deno\plug --allow-read=$Env:LOCALAPPDATA\deno\plug --allow-env=DENO_DIR,NOTIFY_PLUGIN_URL,LOCALAPPDATA --allow-net="wwwqis-2rz.itmz.hs-rm.de" https://raw.githubusercontent.com/Cazka/hsrm-qis/main/main.ts
 ```
 
 You will then be prompted to enter your QIS login credentials.
