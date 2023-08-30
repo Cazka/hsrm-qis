@@ -5,8 +5,7 @@ const BASE_URL = "https://wwwqis-2rz.itmz.hs-rm.de";
 const notif = new Notification().title("Neue Note!");
 
 async function getCookie(username: string, password: string): Promise<string> {
-  const url =
-    `${BASE_URL}/qisserver/rds?state=user&type=1&category=auth.login&startpage=portal.vm&breadCrumbSource=portal`;
+  const url = `${BASE_URL}/qisserver/rds?state=user&type=1&category=auth.login&startpage=portal.vm&breadCrumbSource=portal`;
 
   const request = new Request(url, {
     method: "POST",
@@ -34,8 +33,7 @@ async function getCookie(username: string, password: string): Promise<string> {
 }
 
 async function getAsi(cookie: string): Promise<string> {
-  const url =
-    `${BASE_URL}/qisserver/rds?state=change&type=1&moduleParameter=studyPOSMenu&nextdir=change&next=menu.vm&subdir=applications&xml=menu&purge=y&navigationPosition=functions%2CstudyPOSMenu&breadcrumb=studyPOSMenu&topitem=functions&subitem=studyPOSMenu`;
+  const url = `${BASE_URL}/qisserver/rds?state=change&type=1&moduleParameter=studyPOSMenu&nextdir=change&next=menu.vm&subdir=applications&xml=menu&purge=y&navigationPosition=functions%2CstudyPOSMenu&breadcrumb=studyPOSMenu&topitem=functions&subitem=studyPOSMenu`;
 
   const request = new Request(url, {
     method: "GET",
@@ -58,8 +56,7 @@ async function getAsi(cookie: string): Promise<string> {
 }
 
 async function getAbschlussId(cookie: string, asi: string): Promise<string> {
-  const url =
-    `${BASE_URL}/qisserver/rds?state=notenspiegelStudent&next=tree.vm&nextdir=qispos/notenspiegel/student&menuid=notenspiegelStudent&breadcrumb=notenspiegel&breadCrumbSource=menu&asi=${asi}`;
+  const url = `${BASE_URL}/qisserver/rds?state=notenspiegelStudent&next=tree.vm&nextdir=qispos/notenspiegel/student&menuid=notenspiegelStudent&breadcrumb=notenspiegel&breadCrumbSource=menu&asi=${asi}`;
 
   const request = new Request(url, {
     method: "GET",
@@ -81,13 +78,8 @@ async function getAbschlussId(cookie: string, asi: string): Promise<string> {
   return match[1];
 }
 
-async function getNotenSpiegelHtml(
-  cookie: string,
-  asi: string,
-  abschlussId: string,
-): Promise<string> {
-  const url =
-    `${BASE_URL}/qisserver/rds?state=notenspiegelStudent&next=list.vm&nextdir=qispos/notenspiegel/student&createInfos=Y&struct=auswahlBaum&nodeID=${abschlussId}&expand=0&asi=${asi}#${abschlussId}`;
+async function getNotenSpiegelHtml(cookie: string, asi: string, abschlussId: string): Promise<string> {
+  const url = `${BASE_URL}/qisserver/rds?state=notenspiegelStudent&next=list.vm&nextdir=qispos/notenspiegel/student&createInfos=Y&struct=auswahlBaum&nodeID=${abschlussId}&expand=0&asi=${asi}#${abschlussId}`;
 
   const request = new Request(url, {
     method: "GET",
@@ -103,6 +95,17 @@ async function getNotenSpiegelHtml(
   const text = await response.text();
 
   return text;
+}
+
+async function sendNotificationWithNtfy(username) {
+  const url = `https://ntfy.sh/hsrm-qis_${username}`;
+
+  const request = new Request(url, {
+    method: "POST",
+    body: "Neue Note!",
+  });
+
+  const response = await fetch(request);
 }
 
 function sleep(seconds: number): Promise<void> {
@@ -131,6 +134,7 @@ async function main() {
       notenSpiegel = notenSpiegelNew;
       console.log("Neue Note!");
       notif.show();
+      sendNotificationWithNtfy(username);
     }
 
     await sleep(69);
